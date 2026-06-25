@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LBtradez Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#05070d; --panel:rgba(255,255,255,.075); --panel2:rgba(255,255,255,.12);
+      --border:rgba(255,255,255,.14); --text:#f7f7fb; --muted:rgba(247,247,251,.63);
+      --gold:#f5c542; --gold2:#ffdd72; --green:#38e28b; --red:#ff5d73; --orange:#ffab4a; --blue:#7aa7ff;
+      --shadow:0 24px 80px rgba(0,0,0,.45); --radius:24px;
+    }
+    *{box-sizing:border-box} body{margin:0;min-height:100vh;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:radial-gradient(circle at 10% 10%,rgba(245,197,66,.18),transparent 33%),radial-gradient(circle at 85% 15%,rgba(122,167,255,.16),transparent 35%),linear-gradient(135deg,#05070d 0%,#090e1b 55%,#06070b 100%)}
+    button,input,textarea,select{font:inherit} button{cursor:pointer} .hidden{display:none!important}
+    .glass{background:linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.04));border:1px solid var(--border);box-shadow:var(--shadow);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)}
+    .auth{min-height:100vh;display:grid;place-items:center;padding:28px}.auth-card{width:min(460px,100%);border-radius:32px;padding:26px}.logo{width:64px;height:64px;display:grid;place-items:center;border-radius:21px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#070707;font-weight:900;letter-spacing:-.06em;margin-bottom:18px}.eyebrow{margin:0 0 8px;color:var(--gold2);text-transform:uppercase;letter-spacing:.16em;font-size:12px;font-weight:850}.auth h1{font-size:36px;margin:0 0 10px;letter-spacing:-.06em}.muted{color:var(--muted);line-height:1.65}.tiny{color:var(--muted);font-size:12px;line-height:1.45}.auth-note{padding:12px 14px;border-radius:16px;background:rgba(255,171,74,.12);border:1px solid rgba(255,171,74,.28);color:#ffe1b8;margin:16px 0}
+    label{display:grid;gap:7px;color:rgba(247,247,251,.88);font-size:13px;font-weight:760;margin:12px 0} input,select,textarea{width:100%;color:var(--text);background:rgba(3,5,12,.45);border:1px solid rgba(255,255,255,.13);border-radius:15px;padding:13px 14px;outline:none;transition:.2s} textarea{resize:vertical;min-height:110px} input:focus,select:focus,textarea:focus{border-color:rgba(245,197,66,.75);box-shadow:0 0 0 4px rgba(245,197,66,.12)}
+    .btn{border:1px solid transparent;border-radius:15px;padding:12px 15px;font-weight:850;color:var(--text);background:rgba(255,255,255,.08);transition:.2s}.btn:hover{transform:translateY(-1px)}.btn.primary{color:#080809;background:linear-gradient(135deg,var(--gold),var(--gold2));box-shadow:0 14px 36px rgba(245,197,66,.22)}.btn.danger{background:rgba(255,93,115,.12);border-color:rgba(255,93,115,.25);color:#ffd7de}.btn.green{background:rgba(56,226,139,.12);border-color:rgba(56,226,139,.25);color:#d2ffe4}.btn.ghost{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)}.btn.full{width:100%;margin-top:8px}.btn:disabled{opacity:.65;cursor:not-allowed;transform:none}
+    .shell{display:grid;grid-template-columns:280px minmax(0,1fr);gap:22px;min-height:100vh;padding:22px}.side{position:sticky;top:22px;height:calc(100vh - 44px);border-radius:28px;padding:20px;display:flex;flex-direction:column}.brand{display:flex;gap:12px;align-items:center;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.1)}.brand .logo{width:46px;height:46px;border-radius:15px;margin:0;font-size:15px}.brand h3{margin:0;letter-spacing:-.04em}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.nav{display:grid;gap:8px;margin:22px 0}.nav-btn{width:100%;border:1px solid transparent;text-align:left;display:flex;gap:12px;align-items:center;color:var(--muted);background:transparent;border-radius:16px;padding:12px;font-weight:800}.nav-btn.active{color:var(--text);background:rgba(245,197,66,.14);border-color:rgba(245,197,66,.18)}.nav-icon{width:28px;height:28px;display:grid;place-items:center;border-radius:10px;background:rgba(255,255,255,.07)}.side-footer{margin-top:auto}.content{min-width:0;padding-bottom:70px}.topbar{border-radius:28px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px}.topbar h1{margin:0;font-size:clamp(28px,4vw,44px);letter-spacing:-.06em}.user-pill{padding:10px 14px;border-radius:18px;background:rgba(255,255,255,.07);display:grid;gap:3px;text-align:right}.grid{display:grid;gap:16px;margin-top:18px}.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.card{border-radius:var(--radius);padding:20px;background:linear-gradient(135deg,rgba(255,255,255,.09),rgba(255,255,255,.04));border:1px solid var(--border);box-shadow:0 18px 54px rgba(0,0,0,.24)}.metric-label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.12em;font-weight:850}.metric-value{font-size:30px;font-weight:900;letter-spacing:-.06em;margin:10px 0 4px}.profit{color:var(--green)}.loss{color:var(--red)}.orange{color:var(--orange)}.blue{color:var(--blue)}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.toolbar h2,.card h2{margin:0;font-size:22px;letter-spacing:-.04em}.tag{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:850;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);white-space:nowrap}.tag.green{color:#caffdf;background:rgba(56,226,139,.12);border-color:rgba(56,226,139,.25)}.tag.red{color:#ffd2d9;background:rgba(255,93,115,.12);border-color:rgba(255,93,115,.25)}.tag.orange{color:#ffe1b8;background:rgba(255,171,74,.12);border-color:rgba(255,171,74,.25)}.tag.blue{color:#dbe6ff;background:rgba(122,167,255,.12);border-color:rgba(122,167,255,.25)}
+    .table-wrap{overflow:auto;border-radius:18px;border:1px solid rgba(255,255,255,.1);margin-top:16px}table{width:100%;border-collapse:collapse;min-width:850px}th,td{padding:14px;text-align:left;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:top}th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.11em}tr:last-child td{border-bottom:0}.actions{display:flex;gap:8px;flex-wrap:wrap}.searchbar{display:grid;grid-template-columns:1fr 180px;gap:12px;margin-top:14px}.post-card{display:grid;gap:10px}.option-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}.empty{padding:30px;text-align:center;border-radius:22px;background:rgba(255,255,255,.045);border:1px dashed rgba(255,255,255,.16)}
+
+    .community-admin-hero{position:relative;overflow:hidden;background:radial-gradient(circle at 12% 0%,rgba(245,197,66,.20),transparent 36%),radial-gradient(circle at 95% 15%,rgba(35,213,171,.13),transparent 28%),linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.045))}.community-admin-hero:before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:34px 34px;opacity:.28;pointer-events:none}.community-admin-hero>*{position:relative}.composer-card{display:grid;gap:14px}.composer-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.post-type-preview{border-radius:22px;padding:16px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.10);display:grid;gap:8px}.post-type-preview h3{margin:0;font-size:18px;letter-spacing:-.03em}.post-tips{display:grid;gap:10px}.tip-card{padding:13px;border-radius:18px;background:rgba(255,255,255,.052);border:1px solid rgba(255,255,255,.09)}.admin-post-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:14px}.admin-post-card{position:relative;overflow:hidden}.admin-post-card:before{content:'';position:absolute;inset:-70px -80px auto auto;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(245,197,66,.13),transparent 70%);pointer-events:none}.admin-post-card>*{position:relative}.admin-post-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}.admin-post-title{margin:12px 0 8px;font-size:22px;letter-spacing:-.04em}.admin-post-body{white-space:pre-wrap;line-height:1.65;color:var(--muted)}.result-row{display:grid;gap:7px;margin-top:10px}.result-meta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:12px;font-weight:850}.result-bar{height:10px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}.result-bar span{display:block;height:100%;width:var(--pct,0%);border-radius:999px;background:linear-gradient(90deg,var(--gold),var(--green))}.post-stat-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.mini-stat{padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);font-size:12px;font-weight:850;color:var(--muted)}.form-help{font-size:12px;color:var(--muted);line-height:1.55;margin-top:4px}.checkbox-row{display:flex;align-items:center;gap:10px;padding:12px;border-radius:16px;background:rgba(255,255,255,.052);border:1px solid rgba(255,255,255,.09);font-weight:850}.checkbox-row input{width:auto}.empty-posts{padding:36px;text-align:center;border-radius:24px;background:rgba(255,255,255,.045);border:1px dashed rgba(255,255,255,.16)}
+
+    .toast{position:fixed;right:22px;bottom:22px;z-index:50;max-width:min(420px,calc(100vw - 44px));padding:14px 16px;border-radius:16px;background:rgba(8,10,18,.88);border:1px solid rgba(255,255,255,.14);box-shadow:var(--shadow);opacity:0;transform:translateY(14px);pointer-events:none;transition:.22s}.toast.show{opacity:1;transform:translateY(0)}.toast.success{border-color:rgba(56,226,139,.32);color:#cdfde1}.toast.error{border-color:rgba(255,93,115,.32);color:#ffd1d8}.toast.warning{border-color:rgba(255,171,74,.32);color:#ffe1b8}
+    @media(max-width:1000px){.shell{grid-template-columns:1fr}.side{position:relative;height:auto}.cols-4,.cols-3,.cols-2{grid-template-columns:1fr}.searchbar{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}.user-pill{text-align:left;width:100%}}
+  </style>
+</head>
+<body>
+  <div id="authScreen" class="auth">
+    <div class="auth-card glass">
+      <div class="logo">LB</div>
+      <p class="eyebrow">Admin Access</p>
+      <h1>LBtradez Admin</h1>
+      <p class="muted">Login with your Firebase admin account to manage users and community posts.</p>
+      <div class="auth-note tiny">Before using this dashboard, create <b>admins/YOUR_UID</b> in Firestore Console. The document can contain anything, for example <b>{ role: "owner" }</b>.</div>
+      <form id="loginForm">
+        <label>Email<input id="email" type="email" placeholder="admin@email.com" required></label>
+        <label>Password<input id="password" type="password" placeholder="••••••••" required></label>
+        <button class="btn primary full" id="loginBtn" type="submit">Login as Admin</button>
+      </form>
+      <p id="authMsg" class="tiny"></p>
+    </div>
+  </div>
+
+  <div id="adminShell" class="shell hidden">
+    <aside class="side glass">
+      <div class="brand"><div class="logo">LB</div><div><h3>LBtradez</h3><p>Admin Dashboard</p></div></div>
+      <nav class="nav" id="nav"></nav>
+      <div class="side-footer">
+        <p class="tiny">This dashboard uses Firebase Auth + Firestore rules. No service account key is used here.</p>
+        <button class="btn ghost full" id="logoutBtn">Logout</button>
+      </div>
+    </aside>
+    <main class="content">
+      <header class="topbar glass">
+        <div><p class="eyebrow" id="eyebrow">Overview</p><h1 id="title">Admin Command Center</h1></div>
+        <div class="user-pill"><b id="adminEmail">Admin</b><span class="tiny" id="adminUid">UID</span></div>
+      </header>
+      <section id="page"></section>
+    </main>
+  </div>
+  <div id="toast" class="toast"></div>
+
+  <script type="module">
+    const DEFAULT_FIREBASE_CONFIG = {
+      apiKey: "AIzaSyDKn8r8NJ35s0YwzUwYkPHebK25ZECeWF4",
+      authDomain: "edtradez.firebaseapp.com",
+      projectId: "edtradez",
+      storageBucket: "edtradez.firebasestorage.app",
+      messagingSenderId: "459611429331",
+      appId: "1:459611429331:web:421b7af11b93b35069f726",
+      measurementId: "G-41RN222BRJ"
+    };
+
+    const pages = [
+      {id:'overview', label:'Overview', icon:'⌁', title:'Admin Command Center', eyebrow:'Overview'},
+      {id:'users', label:'Users', icon:'👤', title:'User Management', eyebrow:'Users'},
+      {id:'community', label:'Community Posts', icon:'◉', title:'Community Manager', eyebrow:'Community'},
+      {id:'activity', label:'Active Users', icon:'●', title:'Active Users', eyebrow:'Live Activity'}
+    ];
+
+    const state = { user:null, active:'overview', users:[], posts:[], voteCounts:{}, firebase:{}, unsub:[] };
+    const $ = s => document.querySelector(s);
+    const $$ = s => Array.from(document.querySelectorAll(s));
+
+    function toast(msg,type='info'){
+      const t=$('#toast'); t.textContent=msg; t.className=`toast show ${type}`;
+      clearTimeout(toast.timer); toast.timer=setTimeout(()=>t.classList.remove('show'),3500);
+    }
+    function escapeHTML(v=''){return String(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;')}
+    function toMs(ts){ if(!ts) return 0; if(typeof ts.toMillis==='function') return ts.toMillis(); if(ts.seconds) return ts.seconds*1000; if(typeof ts==='number') return ts; const d=Date.parse(ts); return Number.isFinite(d)?d:0; }
+    function when(ts){ const ms=toMs(ts); if(!ms) return 'Not tracked'; const diff=Date.now()-ms; if(diff<60000) return 'Just now'; if(diff<3600000) return `${Math.floor(diff/60000)}m ago`; if(diff<86400000) return `${Math.floor(diff/3600000)}h ago`; return new Date(ms).toLocaleString(); }
+    function isActive(u){ const ms=toMs(u.lastSeen); return ms && Date.now()-ms <= 15*60*1000; }
+    function friendly(e){
+      const code=e?.code||'';
+      if(code==='permission-denied') return 'Permission denied. Add your UID in Firestore at admins/YOUR_UID and publish the admin rules.';
+      if(code==='auth/invalid-credential') return 'Email or password is incorrect.';
+      if(code==='auth/unauthorized-domain') return 'This domain is not authorized in Firebase Authentication. Use localhost/Firebase Hosting or add this domain.';
+      return (e?.message||'Something went wrong').replace(/^Firebase:\s*/i,'').replace(/\s*\([^)]*\)\.?$/,'');
+    }
+    function metric(label,value,sub='',cls=''){ return `<div class="card"><div class="metric-label">${label}</div><div class="metric-value ${cls}">${value}</div><div class="tiny">${sub}</div></div>`; }
+    function tag(text,cls=''){ return `<span class="tag ${cls}">${escapeHTML(text)}</span>`; }
+    function stop(){ state.unsub.forEach(fn=>{try{fn()}catch{}}); state.unsub=[]; }
+
+    async function initFirebase(){
+      const [appMod, authMod, fs] = await Promise.all([
+        import('https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js'),
+        import('https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js'),
+        import('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js')
+      ]);
+      const app = appMod.getApps().length ? appMod.getApp() : appMod.initializeApp(DEFAULT_FIREBASE_CONFIG);
+      const auth = authMod.getAuth(app);
+      const db = fs.getFirestore(app);
+      state.firebase={app,auth,authMod,db,fs};
+      authMod.onAuthStateChanged(auth, async user=>{
+        if(!user){
+          state.user=null;
+          stop();
+          $('#authScreen').classList.remove('hidden');
+          $('#adminShell').classList.add('hidden');
+          return;
+        }
+
+        // Important: Firebase keeps the same browser login for user app and admin app.
+        // So we verify the logged-in account is actually an admin before showing this dashboard.
+        try {
+          const adminSnap = await fs.getDoc(fs.doc(db, 'admins', user.uid));
+          if(!adminSnap.exists()) {
+            await authMod.signOut(auth);
+            $('#authScreen').classList.remove('hidden');
+            $('#adminShell').classList.add('hidden');
+            $('#authMsg').innerHTML = `This logged-in account is not an admin.<br><span class="tiny">Create <b>admins/${escapeHTML(user.uid)}</b> in Firestore, then login again.</span>`;
+            toast('This account is not admin.', 'error');
+            return;
+          }
+        } catch(e) {
+          await authMod.signOut(auth).catch(()=>{});
+          $('#authScreen').classList.remove('hidden');
+          $('#adminShell').classList.add('hidden');
+          $('#authMsg').textContent = friendly(e);
+          toast(friendly(e), 'error');
+          return;
+        }
+
+        state.user=user;
+        $('#authScreen').classList.add('hidden');
+        $('#adminShell').classList.remove('hidden');
+        $('#adminEmail').textContent=user.email||'Admin';
+        $('#adminUid').textContent=user.uid;
+        renderNav();
+        subscribeAdminData();
+        setPage(state.active);
+      });
+    }
+
+    function renderNav(){
+      $('#nav').innerHTML = pages.map(p=>`<button class="nav-btn ${state.active===p.id?'active':''}" data-page="${p.id}"><span class="nav-icon">${p.icon}</span><span>${p.label}</span></button>`).join('');
+      $$('#nav .nav-btn').forEach(btn=>btn.onclick=()=>setPage(btn.dataset.page));
+    }
+    function setPage(id){
+      state.active=id; const p=pages.find(x=>x.id===id)||pages[0]; $('#title').textContent=p.title; $('#eyebrow').textContent=p.eyebrow; renderNav(); renderPage();
+    }
+
+    function subscribeAdminData(){
+      stop(); const {db,fs}=state.firebase; const {collection,onSnapshot,query,orderBy}=fs;
+      const usersUnsub = onSnapshot(collection(db,'users'), snap=>{
+        state.users = snap.docs.map(d=>({id:d.id, ...d.data()})).sort((a,b)=>toMs(b.lastSeen)-toMs(a.lastSeen)); renderPage();
+      }, e=>{ console.error(e); toast(friendly(e),'error'); $('#page').innerHTML=`<section class="card"><h2>Admin permission needed</h2><p class="muted">${escapeHTML(friendly(e))}</p><p class="tiny">Your UID: <b>${escapeHTML(state.user?.uid||'')}</b></p></section>`; });
+      const postsUnsub = onSnapshot(collection(db,'communityPosts'), async snap=>{
+        state.posts = snap.docs
+          .map(d=>({id:d.id, ...d.data()}))
+          .sort((a,b)=>toMs(b.createdAt || b.updatedAt || b.date) - toMs(a.createdAt || a.updatedAt || a.date));
+        await loadVoteCounts(); renderPage();
+      }, e=>{ console.error(e); toast(friendly(e),'error'); });
+      state.unsub.push(usersUnsub, postsUnsub);
+    }
+
+    async function loadVoteCounts(){
+      const {db,fs}=state.firebase; const {collection,getDocs}=fs; const counts={};
+      await Promise.all(state.posts.map(async post=>{
+        const snap = await getDocs(collection(db,'communityPosts',post.id,'votes')).catch(()=>null);
+        const map={ total:0 };
+        if(snap){ snap.docs.forEach(d=>{ const opt=d.data().optionId||'unknown'; map[opt]=(map[opt]||0)+1; map.total++; }); }
+        counts[post.id]=map;
+      }));
+      state.voteCounts=counts;
+    }
+
+    function renderPage(){
+      if(!$('#page')) return;
+      if(state.active==='users') return renderUsers();
+      if(state.active==='community') return renderCommunity();
+      if(state.active==='activity') return renderActivity();
+      return renderOverview();
+    }
+
+    function renderOverview(){
+      const total=state.users.length, banned=state.users.filter(u=>u.banned||u.status==='banned').length, active=state.users.filter(isActive).length;
+      const posts=state.posts.length;
+      $('#page').innerHTML = `
+        <section class="grid cols-4">
+          ${metric('Total Users', total, 'All registered accounts')}
+          ${metric('Active Users', active, 'Seen in last 15 minutes', active?'profit':'')}
+          ${metric('Banned Users', banned, 'Blocked from user workspace', banned?'loss':'')}
+          ${metric('Community Posts', posts, 'Messages, polls, votes, giveaways')}
+        </section>
+        <section class="grid cols-2">
+          <div class="card"><div class="toolbar"><div><h2>Recent Users</h2><p class="muted">Latest tracked activity.</p></div><button class="btn ghost" data-jump="users">Manage</button></div>${smallUserList(state.users.slice(0,6))}</div>
+          <div class="card"><div class="toolbar"><div><h2>Recent Community</h2><p class="muted">Latest admin posts.</p></div><button class="btn ghost" data-jump="community">Post</button></div>${smallPostList(state.posts.slice(0,4))}</div>
+        </section>`;
+      $$('[data-jump]').forEach(b=>b.onclick=()=>setPage(b.dataset.jump));
+    }
+
+    function smallUserList(rows){ if(!rows.length) return `<div class="empty">No users yet.</div>`; return `<div class="table-wrap"><table style="min-width:620px"><tbody>${rows.map(u=>`<tr><td><b>${escapeHTML(u.name||'Trader')}</b><br><span class="tiny">${escapeHTML(u.email||u.id)}</span></td><td>${isActive(u)?tag('active','green'):tag('offline')}</td><td class="tiny">${when(u.lastSeen)}</td></tr>`).join('')}</tbody></table></div>`; }
+    function smallPostList(rows){ if(!rows.length) return `<div class="empty">No community posts yet.</div>`; return `<div style="display:grid;gap:10px;margin-top:14px">${rows.map(p=>`<div class="option-row"><div><b>${escapeHTML(p.title||'Community Update')}</b><br><span class="tiny">${escapeHTML(p.type||'message')} • ${when(p.createdAt)}</span></div>${tag(p.status||'active',p.status==='draft'?'orange':'green')}</div>`).join('')}</div>`; }
+
+    function renderUsers(){
+      const total=state.users.length, banned=state.users.filter(u=>u.banned||u.status==='banned').length, active=state.users.filter(isActive).length;
+      $('#page').innerHTML = `
+        <section class="grid cols-3">${metric('Total Users',total)}${metric('Active Now',active,'Last 15 minutes','profit')}${metric('Banned',banned,'App-level banned users',banned?'loss':'')}</section>
+        <section class="card">
+          <div class="toolbar"><div><h2>Users</h2><p class="muted">Ban/unban users from the app workspace.</p></div><button class="btn ghost" id="refreshBtn">Refresh</button></div>
+          <div class="searchbar"><input id="userSearch" placeholder="Search by name, email or UID"><select id="userFilter"><option value="all">All users</option><option value="active">Active users</option><option value="banned">Banned users</option><option value="normal">Not banned</option></select></div>
+          <div id="userTable"></div>
+        </section>`;
+      $('#refreshBtn').onclick=()=>toast('Live data already refreshes automatically.','success');
+      $('#userSearch').oninput=renderUserTable; $('#userFilter').onchange=renderUserTable; renderUserTable();
+    }
+    function filteredUsers(){
+      const q=($('#userSearch')?.value||'').toLowerCase().trim(); const f=$('#userFilter')?.value||'all';
+      return state.users.filter(u=>{
+        const banned=!!(u.banned||u.status==='banned'); const active=isActive(u);
+        const text=`${u.name||''} ${u.email||''} ${u.id}`.toLowerCase();
+        if(q && !text.includes(q)) return false; if(f==='active'&&!active) return false; if(f==='banned'&&!banned) return false; if(f==='normal'&&banned) return false; return true;
+      });
+    }
+    function renderUserTable(){
+      const rows=filteredUsers();
+      $('#userTable').innerHTML = rows.length ? `<div class="table-wrap"><table><thead><tr><th>User</th><th>Status</th><th>Last Seen</th><th>Joined</th><th>Actions</th></tr></thead><tbody>${rows.map(u=>userRow(u)).join('')}</tbody></table></div>` : `<div class="empty">No matching users.</div>`;
+      $$('[data-ban]').forEach(b=>b.onclick=()=>banUser(b.dataset.ban));
+      $$('[data-unban]').forEach(b=>b.onclick=()=>unbanUser(b.dataset.unban));
+    }
+    function userRow(u){
+      const banned=!!(u.banned||u.status==='banned');
+      return `<tr><td><b>${escapeHTML(u.name||'Trader')}</b><br><span class="tiny">${escapeHTML(u.email||'No email')}</span><br><span class="tiny">UID: ${escapeHTML(u.id)}</span></td><td>${banned?tag('banned','red'):isActive(u)?tag('active','green'):tag('normal','blue')}<br><span class="tiny">${escapeHTML(u.banReason||'')}</span></td><td>${when(u.lastSeen)}</td><td>${when(u.createdAt)}</td><td><div class="actions">${banned?`<button class="btn green" data-unban="${escapeHTML(u.id)}">Unban</button>`:`<button class="btn danger" data-ban="${escapeHTML(u.id)}">Ban</button>`}</div></td></tr>`;
+    }
+
+    async function banUser(uid){
+      const reason = prompt('Reason for banning this user?', 'Violation of LBtradez rules') || 'Banned by admin';
+      const {db,fs}=state.firebase; const {doc,updateDoc,serverTimestamp}=fs;
+      await updateDoc(doc(db,'users',uid), { banned:true, status:'banned', banReason:reason, bannedAt:serverTimestamp(), bannedBy:state.user.uid });
+      toast('User banned.','success');
+    }
+    async function unbanUser(uid){
+      const {db,fs}=state.firebase; const {doc,updateDoc,serverTimestamp}=fs;
+      await updateDoc(doc(db,'users',uid), { banned:false, status:'active', banReason:'', unbannedAt:serverTimestamp(), unbannedBy:state.user.uid });
+      toast('User unbanned.','success');
+    }
+
+    function communityPostMeta(type = ''){
+      const t=String(type||'message').toLowerCase();
+      if(t.includes('giveaway')) return {label:'Giveaway Update', short:'Giveaway', cls:'green', icon:'🎁', help:'Use this for winners, challenge prizes, coupon drops, or account giveaways.'};
+      if(t.includes('poll')) return {label:'Community Poll', short:'Poll', cls:'orange', icon:'📊', help:'Ask users a question and let them pick one option.'};
+      if(t.includes('vote')) return {label:'Quick Vote', short:'Vote', cls:'orange', icon:'🗳️', help:'Use this for fast yes/no or multiple-choice community decisions.'};
+      return {label:'Announcement', short:'Message', cls:'blue', icon:'📣', help:'Use this for normal messages, updates, news, reminders, and notices.'};
+    }
+    function safeOptionId(text,i){ const slug=String(text||'option').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'').slice(0,28)||'option'; return `opt_${i+1}_${slug}`; }
+    function normalizeAdminOptions(options){
+      if(!Array.isArray(options)) return [];
+      return options.map((o,i)=> typeof o==='string' ? {id:safeOptionId(o,i),text:o} : {id:o.id||safeOptionId(o.text||o.label||o.value,i), text:o.text||o.label||o.value||`Option ${i+1}`}).filter(o=>o.text);
+    }
+    function renderCommunity(){
+      $('#page').innerHTML = `
+        <section class="card community-admin-hero">
+          <p class="eyebrow">Community Control</p>
+          <h2 style="font-size:clamp(30px,4vw,50px);margin:6px 0 8px;letter-spacing:-.06em">Professional post manager</h2>
+          <p class="muted" style="max-width:760px;line-height:1.7">Create polished announcements, polls, votes and giveaway updates for the main LBtradez community feed. Users can only read and vote.</p>
+        </section>
+        <section class="grid cols-2">
+          <div class="card composer-card">
+            <div class="toolbar"><div><h2>Create Community Post</h2><p class="muted">Publish official posts to every logged-in user.</p></div><span class="tag green">Admin only</span></div>
+            <form id="postForm">
+              <div class="composer-grid">
+                <label>Post Type<select name="type" id="postType"><option value="message">Message / Announcement</option><option value="poll">Poll</option><option value="vote">Vote</option><option value="giveaway">Giveaway Update</option></select></label>
+                <label>Status<select name="status"><option value="active">Active / Public</option><option value="draft">Draft / Hidden</option><option value="closed">Closed / Results only</option></select></label>
+              </div>
+              <div class="post-type-preview" id="postTypePreview"></div>
+              <label>Post Title<input name="title" placeholder="Example: July funded account giveaway" required></label>
+              <label>Post Message<textarea name="body" placeholder="Write your update in a clear and professional style..." required></textarea></label>
+              <label>Poll/Vote Options<textarea name="options" placeholder="Option 1
+Option 2
+Option 3"></textarea><div class="form-help">Required for Poll/Vote. Write one option per line. Users will select one option.</div></label>
+              <label>Attachment URL<input name="imageUrl" placeholder="https://... optional poster/image/link"><div class="form-help">Optional: paste image, poster, Telegram, website or update link.</div></label>
+              <label class="checkbox-row"><input type="checkbox" name="pinned"> Pin this post at top <span class="tiny">Optional highlight in user feed</span></label>
+              <button class="btn primary full" type="submit">Publish Community Post</button>
+            </form>
+          </div>
+          <div class="card">
+            <h2>Post Guide</h2>
+            <div class="post-tips" style="margin-top:14px">
+              <div class="tip-card"><b>📣 Message</b><p class="muted">Use for announcements, rules, schedule updates and normal community notes.</p></div>
+              <div class="tip-card"><b>📊 Poll / Vote</b><p class="muted">Add at least 2 options. Users can select one option and change it later.</p></div>
+              <div class="tip-card"><b>🎁 Giveaway</b><p class="muted">Use for winners, prize updates, countdowns or participation rules.</p></div>
+            </div>
+          </div>
+        </section>
+        <section class="card"><div class="toolbar"><div><h2>Existing Posts</h2><p class="muted">Manage posts shown in the user community feed.</p></div><span class="tag blue">${state.posts.length} total</span></div><div id="postList"></div></section>`;
+      $('#postForm').onsubmit=createPost;
+      $('#postType').onchange=syncPostTypePreview;
+      syncPostTypePreview();
+      renderPostList();
+    }
+    function syncPostTypePreview(){
+      const type=$('#postType')?.value || 'message'; const meta=communityPostMeta(type);
+      const box=$('#postTypePreview'); if(!box) return;
+      box.innerHTML=`<span class="tag ${meta.cls}">${meta.icon} ${meta.label}</span><h3>${meta.short} post</h3><p class="muted">${meta.help}</p>`;
+    }
+    function renderPostList(){
+      if(!$('#postList')) return;
+      $('#postList').innerHTML = state.posts.length ? `<div class="admin-post-grid">${state.posts.map(postCard).join('')}</div>` : `<div class="empty-posts"><h3>No community posts yet.</h3><p class="muted">Create your first message, poll, vote or giveaway update.</p></div>`;
+      $$('[data-delete-post]').forEach(b=>b.onclick=()=>deletePost(b.dataset.deletePost));
+    }
+    function postCard(p){
+      const meta=communityPostMeta(p.type); const options=normalizeAdminOptions(p.options||[]); const counts=state.voteCounts[p.id]||{}; const total=counts.total||0;
+      const statusCls=p.status==='closed'?'orange':p.status==='draft'?'orange':'green';
+      return `<article class="card admin-post-card">
+        <div class="admin-post-head"><div>${tag(`${meta.icon} ${meta.short}`,meta.cls)} ${tag(p.status||'active',statusCls)} ${p.pinned?tag('Pinned','orange'):''}</div><button class="btn danger" data-delete-post="${escapeHTML(p.id)}">Delete</button></div>
+        <h3 class="admin-post-title">${escapeHTML(p.title||'Community Update')}</h3>
+        <div class="admin-post-body">${escapeHTML(p.body||'')}</div>
+        ${p.imageUrl?`<p><a class="btn ghost" href="${escapeHTML(p.imageUrl)}" target="_blank" rel="noopener">Open Attachment</a></p>`:''}
+        ${options.length?`<div style="margin-top:10px">${options.map(o=>{ const c=counts[o.id]||0; const pct=total?Math.round(c/total*100):0; return `<div class="result-row"><div class="result-meta"><span>${escapeHTML(o.text)}</span><span>${pct}% · ${c}</span></div><div class="result-bar"><span style="--pct:${pct}%"></span></div></div>`; }).join('')}</div>`:''}
+        <div class="post-stat-row"><span class="mini-stat">${total} vote${total===1?'':'s'}</span><span class="mini-stat">Created ${when(p.createdAt)}</span><span class="mini-stat">${escapeHTML(p.authorEmail||'Admin')}</span></div>
+      </article>`;
+    }
+    async function createPost(e){
+      e.preventDefault(); const form=e.target; const type=form.type.value; const rawLines=form.options.value.split('\n').map(x=>x.trim()).filter(Boolean);
+      if((type==='poll'||type==='vote') && rawLines.length<2){ toast('Add at least 2 options for poll/vote.','warning'); return; }
+      const options=rawLines.map((text,i)=>({ id:safeOptionId(text,i), text }));
+      const payload={
+        type,
+        status:form.status.value,
+        title:form.title.value.trim(),
+        body:form.body.value.trim(),
+        imageUrl:form.imageUrl.value.trim(),
+        options,
+        pinned:!!form.pinned.checked,
+        allowVoting:type==='poll'||type==='vote',
+        createdAt:null,
+        updatedAt:null,
+        createdBy:state.user.uid,
+        authorEmail:state.user.email||'',
+        authorName:'LBtradez Admin'
+      };
+      if(!payload.title || !payload.body){ toast('Title and message are required.','warning'); return; }
+      const {db,fs}=state.firebase; const {collection,addDoc,serverTimestamp}=fs;
+      payload.createdAt=serverTimestamp(); payload.updatedAt=serverTimestamp();
+      await addDoc(collection(db,'communityPosts'), payload);
+      form.reset(); syncPostTypePreview(); toast('Community post published.','success');
+    }
+    async function deletePost(id){
+      if(!confirm('Delete this community post?')) return;
+      const {db,fs}=state.firebase; const {doc,deleteDoc}=fs; await deleteDoc(doc(db,'communityPosts',id)); toast('Post deleted.','success');
+    }
+
+    function renderActivity(){
+      const active=state.users.filter(isActive); const recent=state.users.filter(u=>toMs(u.lastSeen)).slice(0,30);
+      $('#page').innerHTML = `<section class="grid cols-3">${metric('Active Now',active.length,'Last 15 minutes','profit')}${metric('Recently Seen',recent.length,'Tracked users')}${metric('Offline',Math.max(state.users.length-active.length,0),'Total minus active')}</section><section class="card"><h2>Activity Feed</h2><p class="muted">Active users depend on the user app updating <b>lastSeen</b>.</p>${smallUserList(recent)}</section>`;
+    }
+
+    $('#loginForm').onsubmit = async (e)=>{
+      e.preventDefault(); const btn=$('#loginBtn'); btn.disabled=true; btn.textContent='Logging in...'; $('#authMsg').textContent='';
+      try{ await state.firebase.authMod.signInWithEmailAndPassword(state.firebase.auth,$('#email').value.trim(),$('#password').value); toast('Admin login successful.','success'); }
+      catch(e){ $('#authMsg').textContent=friendly(e); toast(friendly(e),'error'); }
+      finally{ btn.disabled=false; btn.textContent='Login as Admin'; }
+    };
+    $('#logoutBtn').onclick = async()=>{ await state.firebase.authMod.signOut(state.firebase.auth); };
+
+    initFirebase().catch(e=>{ $('#authMsg').textContent=friendly(e); toast(friendly(e),'error'); });
+  </script>
+</body>
+</html>
